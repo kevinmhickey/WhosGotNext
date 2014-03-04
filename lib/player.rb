@@ -1,5 +1,4 @@
 require 'data_mapper'
-require 'Game'
 
 class Player
 	include DataMapper::Resource
