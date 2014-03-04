@@ -1,8 +1,11 @@
-class Game
-	def self.register(params)
-	end
+require 'data_mapper'
 
-	def self.get_all
-		[]
-	end
+class Game
+	include DataMapper::Resource
+
+	property :id, Serial
+	property :name, String
+	property :players, Integer
+	property :winner_stays, Boolean
+
 end
