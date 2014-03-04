@@ -8,4 +8,5 @@ class Game
 	property :player_count, Integer
 	property :winner_stays, Boolean
 
+	has n, :players
 end

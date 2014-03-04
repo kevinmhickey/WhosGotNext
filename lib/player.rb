@@ -1,4 +1,5 @@
 require 'data_mapper'
+require 'Game'
 
 class Player
 	include DataMapper::Resource
@@ -6,4 +7,7 @@ class Player
 	property :id, Serial
 	property :name, String
 	property :phone, String
+	property :state, Enum[ :waiting, :playing, :done, :canceled ], :default => :waiting
+
+	belongs_to :game
 end
