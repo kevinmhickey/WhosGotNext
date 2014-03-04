@@ -16,7 +16,7 @@ describe Player do
 	it "should have one player in the repository after registration" do
 		game = Game.create
 		Player.create(:name => "Big Kevin", :phone => "+15127960235", :game => game)
-		Player.all.size.should eq(1)
+		Player.all.size.should eq(2)
 	end
 
 	it "should default to the waiting state on creation" do
