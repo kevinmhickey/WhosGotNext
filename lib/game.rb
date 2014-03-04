@@ -9,4 +9,8 @@ class Game
 	property :winner_stays, Boolean
 
 	has n, :players
+
+	def in_progress?
+		players.any? { |player| player.state == :playing }
+	end
 end
