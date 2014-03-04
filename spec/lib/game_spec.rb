@@ -10,7 +10,7 @@ describe Game do
 	end
 
 	it "should have one game in the repository after registration" do
-		Game.create(:name => "Golden Tee", :players => 4, :winner_stays => false)
+		Game.create(:name => "Golden Tee", :player_count => 4, :winner_stays => false)
 		Game.all.size.should eq(1)
 	end
 end

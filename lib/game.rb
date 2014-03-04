@@ -5,7 +5,7 @@ class Game
 
 	property :id, Serial
 	property :name, String
-	property :players, Integer
+	property :player_count, Integer
 	property :winner_stays, Boolean
 
 end
