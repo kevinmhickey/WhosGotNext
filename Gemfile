@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 ruby "2.1.0"
-Bundler.require(:default, :production)
 gem 'sinatra'
 gem 'thin'
 gem 'twilio-ruby'
