@@ -4,7 +4,7 @@ require 'lib/game'
 require 'lib/player'
 
 configure :development do 
-	DataMapper.setup(:default, 'sqlite::memory:')
+	DataMapper.setup(:default, 'sqlite:gotnext.db')
 	DataMapper.finalize
 	DataMapper.auto_migrate!
 end
@@ -27,5 +27,11 @@ end
 
 get '/game/show/:id' do
 	@game = Game.get(params[:id])
+	erb :game
+end
+
+post '/game/start/:id' do
+	@game = Game.get(params[:id])
+	@game.start!
 	erb :game
 end
