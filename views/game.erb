@@ -1,18 +1,1 @@
 <h1><%=@game.name%></h1>
-
-<% if @game.in_progress? %>
-<div id="now_playing">
-<h2>Now playing</h2>
-<ul>
-	<% for player in @game.players_playing %>
-	<li><%= player.name %></li>
-	<% end %>
-</ul>
-</div>
-<% else %>
-<div id="start_game">
-	<form action="/game/start/<%=@game.id%>" method="POST">
-	<input type="submit" value="Start Game"/>
-	</form>
-</div>
-<% end %>
