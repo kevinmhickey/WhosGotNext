@@ -1,0 +1,19 @@
+<h1>Register New Game</h1>
+
+<form action="/game/register" method="POST">
+	<div>
+		<label for="name">Name</label>
+		<input name="name" type="text"/>
+	</div>
+	<div>
+ 		<label for="player_count">Number of Players</label>
+ 		<input name="player_count" type="number" min="1" max="8"/>
+	</div>
+	<div>
+		<label for="winner_stays">Winner Stays</label>
+		<input name="winner_stays" type="checkbox"/>
+	</div>
+	<div>
+		<input type="submit" value="Register"/>
+	</div>
+</form>
