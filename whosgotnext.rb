@@ -3,9 +3,17 @@ require 'sinatra'
 require 'lib/game'
 require 'lib/player'
 
-DataMapper.setup(:default, 'sqlite::memory:')
-DataMapper.finalize
-DataMapper.auto_migrate!
+configure :development do 
+	DataMapper.setup(:default, 'sqlite::memory:')
+	DataMapper.finalize
+	DataMapper.auto_migrate!
+end
+
+configure :production do
+	DataMapper.setup(:default, ENV['DATABASE_URL'])
+	DataMapper.finalize
+	DataMapper.auto_migrate!
+end
 
 
 get '/game/register' do
