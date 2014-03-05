@@ -18,6 +18,10 @@ class Game
 		players.find_all {|player| player.state == :playing}
 	end
 
+	def players_waiting
+		players.find_all {|player| player.state == :waiting}
+	end
+
 	def game_over!
 		players_playing.each do |player|
 			player.state = :done

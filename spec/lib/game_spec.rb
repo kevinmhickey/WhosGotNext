@@ -28,6 +28,15 @@ describe Game do
 		player2.game.should eq(game)
 	end
 
+	it "should know which players are waiting" do
+		game = Game.create(:name => "Solitare", :player_count => 1, :winner_stays => false)
+		player1 = Player.create(:name => "Player 1", :game => game)
+		player2 = Player.create(:name => "Player 2", :game => game)
+		playing = Player.create(:name => "Playing", :game => game, :state => :playing)
+
+		game.players_waiting.should eq([player1, player2])
+	end
+
 	describe "A game in progress" do
 		before(:each) do 
 			@game = Game.create(:name => "Solitare", :player_count => 1, :winner_stays => false)
