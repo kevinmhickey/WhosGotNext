@@ -13,13 +13,13 @@ feature "Playing a Game" do
 	end
 
 
-	scenario "When nobody is playing the Start Game button should exist" do
+	scenario "When nobody is playing" do
 		visit "/game/show/#{@game.id}"
 
 		expect(page).to have_button "Start Game"
 	end
 
-	scenario "When players are waiting and Start Game is pressed screen should show game in progress" do
+	scenario "When players are waiting and Start Game is pressed" do
 		player1 = Player.create(:name => "Royle", :game => @game)
 		player2 = Player.create(:name => "Kevin", :game => @game)
 
@@ -32,6 +32,19 @@ feature "Playing a Game" do
 		expect(page).to have_content "Now playing"
 		expect(page).to have_content "Royle"
 		expect(page).to have_content "Kevin"
+	end
+
+	scenario "When a game is in progress and Game Over is pressed" do
+		player1 = Player.create(:name => "Royle", :state => :playing, :game => @game)
+		player2 = Player.create(:name => "Kevin", :state => :playing, :game => @game)
+
+		visit "/game/show/#{@game.id}"
+		expect(page).to have_button "Game Over"
+
+		click_button "Game Over"
+
+		expect(page).to have_button "Start Game"
+		expect(page).not_to have_content "Now Playing"
 	end
 end
 

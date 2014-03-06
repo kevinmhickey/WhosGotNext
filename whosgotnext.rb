@@ -35,3 +35,9 @@ post '/game/start/:id' do
 	@game.start!
 	erb :game
 end
+
+post '/game/gameover/:id' do
+	@game = Game.get(params[:id])
+	@game.game_over!
+	erb :game
+end
