@@ -41,3 +41,9 @@ post '/game/gameover/:id' do
 	@game.game_over!
 	erb :game
 end
+
+post '/game/gotnext/:id' do
+	@game = Game.get(params[:id])
+	Player.create(:name => params[:gotnext_name], :game => @game)
+	erb :game
+end

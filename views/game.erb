@@ -3,7 +3,7 @@
 <% if @game.in_progress? %>
 <div id="now_playing">
 <h2>Now playing</h2>
-<ul>
+<ul id="now_playing_list">
 	<% for player in @game.players_playing %>
 	<li><%= player.name %></li>
 	<% end %>
@@ -19,3 +19,17 @@
 	</form>
 </div>
 <% end %>
+
+<div id="waiting_div">
+<h2>Waiting to play</h2>
+<ul id="waiting_list">
+	<% for player in @game.players_waiting %>
+	<li><%= player.name %></li>
+	<% end %>
+</ul>
+<form action="/game/gotnext/<%=@game.id%>" method="POST">
+	<div><label for="gotnext_name">Name</label><input name="gotnext_name" type="text"/></div>
+	<input type="submit" value="Got Next"/>
+</form>
+</div>
+

@@ -30,8 +30,8 @@ feature "Playing a Game" do
 
 		expect(page).not_to have_button "Start Game"
 		expect(page).to have_content "Now playing"
-		expect(page).to have_content "Royle"
-		expect(page).to have_content "Kevin"
+		find("#now_playing_list").should have_content "Royle"
+		find("#now_playing_list").should have_content "Kevin"
 	end
 
 	scenario "When a game is in progress and Game Over is pressed" do
@@ -47,4 +47,3 @@ feature "Playing a Game" do
 		expect(page).not_to have_content "Now Playing"
 	end
 end
-
