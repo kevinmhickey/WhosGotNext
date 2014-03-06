@@ -33,17 +33,17 @@ end
 post '/game/start/:id' do
 	@game = Game.get(params[:id])
 	@game.start!
-	erb :game
+	redirect "/game/show/#{params[:id]}"
 end
 
 post '/game/gameover/:id' do
 	@game = Game.get(params[:id])
 	@game.game_over!
-	erb :game
+	redirect "/game/show/#{params[:id]}"
 end
 
 post '/game/gotnext/:id' do
 	@game = Game.get(params[:id])
 	Player.create(:name => params[:gotnext_name], :game => @game)
-	erb :game
+	redirect "/game/show/#{params[:id]}"
 end
