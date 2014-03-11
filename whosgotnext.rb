@@ -21,6 +21,7 @@ get '/game/register' do
 end
 
 post '/game/register' do
+	params[:winner_stays] = !params[:winner_stays].nil?
 	game = Game.create(params)
 	redirect "/game/show/#{game.id}"
 end
