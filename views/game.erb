@@ -1,8 +1,21 @@
 <h1><%=@game.name%></h1>
 
-<% if @game.in_progress? %>
+<% if @game.playing? %>
+
+<% if @game.winner_stays %>
 <div id="now_playing">
 <h2>Now playing</h2>
+<form action="/game/gamewon/<%=@game.id%>" method="POST">
+<% for player in @game.players_playing %>
+<div><input type="radio" name="winner" value=<%= player.id %>><%= player.name %></input></div>
+<% end %>
+<input type="submit" value="Winner"/>
+</form>
+</div>
+<% else %>
+<div id="now_playing">
+<h2>Now playing</h2>
+
 <ul id="now_playing_list">
 	<% for player in @game.players_playing %>
 	<li><%= player.name %></li>
@@ -12,6 +25,8 @@
 <input type="submit" value="Game Over"/>
 </form>
 </div>
+<% end %>
+
 <% else %>
 <div id="start_game">
 	<form action="/game/start/<%=@game.id%>" method="POST">

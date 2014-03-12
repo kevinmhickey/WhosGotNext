@@ -6,13 +6,10 @@ class Game
 	property :id, Serial
 	property :name, String
 	property :player_count, Integer
-	property :winner_stays, Boolean
+	property :winner_stays, Boolean, :default => false
+	property :playing, Boolean, :default => false
 
 	has n, :players
-
-	def in_progress?
-		players.any? {|player| player.state == :playing}
-	end
 
 	def players_playing
 		players.find_all {|player| player.state == :playing}
@@ -27,6 +24,19 @@ class Game
 			player.state = :done
 			player.save
 		end
+
+		update(:playing => false)
+	end
+
+	def game_won! winner_id
+		players_playing.each do |player|
+			unless player.id == winner_id
+				player.state = :done
+				player.save
+			end
+		end
+
+		update(:playing => false)
 	end
 	
 	def start!
@@ -35,6 +45,8 @@ class Game
 			waiting_player.state = :playing
 			waiting_player.save
 		end
+
+		update(:playing => true)
 	end
 	
 end

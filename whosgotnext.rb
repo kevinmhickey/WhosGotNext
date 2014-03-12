@@ -43,6 +43,12 @@ post '/game/gameover/:id' do
 	redirect "/game/show/#{params[:id]}"
 end
 
+post '/game/gamewon/:id' do
+	@game = Game.get(params[:id])
+	@game.game_won!
+	redirect "/game/show/#{params[:id]}"
+end
+
 post '/game/gotnext/:id' do
 	@game = Game.get(params[:id])
 	Player.create(:name => params[:gotnext_name], :game => @game)

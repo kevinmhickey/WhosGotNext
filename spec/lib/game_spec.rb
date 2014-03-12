@@ -39,24 +39,24 @@ describe Game do
 
 	describe "A game in progress" do
 		before(:each) do 
-			@game = Game.create(:name => "Solitare", :player_count => 1, :winner_stays => false)
+			@game = Game.create(:name => "Solitare", :player_count => 1, :winner_stays => false, :playing => false)
 			@player1 = Player.create(:name => "Player 1", :game => @game)
-			@player2 = Player.create(:name => "Player 2", :state => :playing, :game => @game)
+			@player2 = Player.create(:name => "Player 2", :game => @game)
+			@game.start!
+			@game.reload
 		end
 
-		it "should know a game is in progress if any players are playing" do
-			@game.in_progress?.should eq(true)
+		it "should know a game is in progress if it has been started" do
+			@game.playing?.should eq(true)
 		end
 
-		it "should know a game is not in progress if no players are playing" do
-			@player2.state = :done
-			@player2.save
-			
-			@game.in_progress?.should eq(false)
+		it "should know a game is not in progress if it is over" do
+			@game.game_over!
+			@game.playing.should eq(false)
 		end
 
-		it "should list only player 2 as playing" do
-			@game.players_playing.should eq([@player2])
+		it "should list only player 1 as playing" do
+			@game.players_playing.should eq([@player1])
 		end
 	end
 
@@ -113,6 +113,31 @@ describe Game do
 
 		it "should contain an updated list of players playing" do
 			@game.players_playing.should eq([@players[0], @players[1]])
+		end
+	end
+
+	describe "A Game where winner stays" do
+		it "should no longer be in progress when someone has won" do
+			@game = Game.create(:name => "Darts", :player_count => 2, :winner_stays => true)
+			@player1 = Player.create(:name => "Player 1", :state => :waiting, :game => @game)
+			@player2 = Player.create(:name => "Player 2", :state => :waiting, :game => @game)
+			@waiter = Player.create(:name => "Waiter", :state => :waiting, :game => @game)
+			@game.start!
+			
+			@game.game_won! @player1.id
+
+			@game.playing.should eq(false)
+		end
+
+		it "should keep the winner as playing when a game is won" do
+			@game = Game.create(:name => "Darts", :player_count => 2, :winner_stays => true)
+			@player1 = Player.create(:name => "Player 1", :state => :playing, :game => @game)
+			@player2 = Player.create(:name => "Player 2", :state => :playing, :game => @game)
+			@waiter = Player.create(:name => "Waiter", :state => :waiting, :game => @game)
+
+			@game.game_won! @player1.id
+
+			@game.players_playing.should eq([@player1])
 		end
 	end
 end
