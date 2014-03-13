@@ -65,4 +65,19 @@ feature "Playing a Game where winner stays" do
 		visit "/game/show/#{@game.id}"
 		expect(page).to have_button "Winner"
 	end
+
+	scenario "The winner is a player in the next game" do
+		player1 = Player.create(:name => "Royle", :game => @game)
+		winner = Player.create(:name => "Kevin", :game => @game)
+		gotnext = Player.create(:name => "Jim", :game => @game)
+		@game.start!
+
+		visit "/game/show/#{@game.id}"
+		expect(page).to have_button "Winner"
+
+		choose "#{winner.id}_winner"
+		click_button "Winner"
+
+		find("#now_playing_list").should have_content winner.name
+	end
 end

@@ -45,7 +45,7 @@ end
 
 post '/game/gamewon/:id' do
 	@game = Game.get(params[:id])
-	@game.game_won!
+	@game.game_won! params[:winner].to_i
 	redirect "/game/show/#{params[:id]}"
 end
 

@@ -37,7 +37,7 @@ describe Game do
 		game.players_waiting.should eq([player1, player2])
 	end
 
-	describe "A game in progress" do
+	describe "in progress" do
 		before(:each) do 
 			@game = Game.create(:name => "Solitare", :player_count => 1, :winner_stays => false, :playing => false)
 			@player1 = Player.create(:name => "Player 1", :game => @game)
@@ -52,7 +52,7 @@ describe Game do
 
 		it "should know a game is not in progress if it is over" do
 			@game.game_over!
-			@game.playing.should eq(false)
+			@game.playing?.should eq(false)
 		end
 
 		it "should list only player 1 as playing" do
@@ -116,7 +116,7 @@ describe Game do
 		end
 	end
 
-	describe "A Game where winner stays" do
+	describe "where winner stays" do
 		it "should no longer be in progress when someone has won" do
 			@game = Game.create(:name => "Darts", :player_count => 2, :winner_stays => true)
 			@player1 = Player.create(:name => "Player 1", :state => :waiting, :game => @game)
