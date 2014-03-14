@@ -20,8 +20,8 @@ describe Game do
 
 	it "should be able to contain players" do
 		game = Game.create(:name => "Golden Tee", :player_count => 4, :winner_stays => false)
-		player1 = Player.create(:name => "Player 1", :game => game)
-		player2 = Player.create(:name => "Player 2", :game => game)
+		player1 = game.players.create(:name => "Player 1")
+		player2 = game.players.create(:name => "Player 2")
 
 		game.players.size.should eq(2)
 		player1.game.should eq(game)
@@ -70,7 +70,6 @@ describe Game do
 
 		it "should mark all playing players as done when the game is over" do
 			@game.game_over!
-			@game.players_playing.empty?.should eq(true)
 
 			@player1.reload
 			@player2.reload
@@ -78,14 +77,6 @@ describe Game do
 			@player1.state.should eq(:done)
 			@player2.state.should eq(:done)
 
-		end
-
-		it "should do nothing to waiting players when the game is over" do
-			@game.game_over!
-
-			@waiter.reload
-
-			@waiter.state.should eq(:waiting)
 		end
 	end
 
@@ -137,7 +128,20 @@ describe Game do
 
 			@game.game_won! @player1.id
 
-			@game.players_playing.should eq([@player1])
+			@game.players_playing.should include(@player1)
+		end
+
+		it "should have a full roster of players when the game is won" do
+			@game = Game.create(:name => "Darts", :player_count => 2, :winner_stays => true)
+			@player1 = Player.create(:name => "Player 1", :state => :playing, :game => @game)
+			@player2 = Player.create(:name => "Player 2", :state => :playing, :game => @game)
+			@waiter = Player.create(:name => "Waiter", :state => :waiting, :game => @game)
+
+			@game.game_won! @player1.id
+
+			@game.players_playing.size.should eq(2)
+			@game.players_playing.should include(@player1)
+			@game.players_playing.should include(@waiter)
 		end
 	end
 end

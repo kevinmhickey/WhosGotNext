@@ -19,32 +19,36 @@ class Game
 		players.find_all {|player| player.state == :waiting}
 	end
 
+	def populate_game
+		(player_count - players_playing.size).times do
+			waiting_player = players.find {|player| player.state == :waiting}
+			waiting_player.update(:state => :playing) unless waiting_player.nil?
+		end
+	end
+
 	def game_over!
 		players_playing.each do |player|
 			player.state = :done
 			player.save
 		end
+		
+		populate_game
 
 		update(:playing => false)
 	end
 
 	def game_won! winner_id
 		players_playing.each do |player|
-			unless player.id == winner_id
-				player.state = :done
-				player.save
-			end
+			player.update(:state => :done) unless player.id == winner_id
 		end
+
+		populate_game
 
 		update(:playing => false)
 	end
 	
 	def start!
-		player_count.times do 
-			waiting_player = players.find {|player| player.state == :waiting}
-			waiting_player.state = :playing
-			waiting_player.save
-		end
+		populate_game
 
 		update(:playing => true)
 	end
