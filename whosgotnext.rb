@@ -51,6 +51,6 @@ end
 
 post '/game/gotnext/:id' do
 	@game = Game.get(params[:id])
-	Player.create(:name => params[:gotnext_name], :game => @game)
+	@game.got_next(:name => params[:gotnext_name])
 	redirect "/game/show/#{params[:id]}"
 end

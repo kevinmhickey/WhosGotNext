@@ -1,5 +1,8 @@
 require 'rspec/core/rake_task'
 
+RSpec::Core::RakeTask.new(:spec_all) do |t|
+end
+
 RSpec::Core::RakeTask.new(:spec) do |t|
 	t.rspec_opts = "--tag ~type:feature"
 end

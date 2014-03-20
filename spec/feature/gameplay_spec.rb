@@ -20,8 +20,8 @@ feature "Playing a Game" do
 	end
 
 	scenario "when players are waiting and Start Game is pressed" do
-		player1 = Player.create(:name => "Royle", :game => @game)
-		player2 = Player.create(:name => "Kevin", :game => @game)
+		player1 = @game.got_next :name => "Royle"
+		player2 = @game.got_next :name => "Kevin"
 
 		visit "/game/show/#{@game.id}"
 		expect(page).to have_button "Start Game"
@@ -37,8 +37,8 @@ feature "Playing a Game" do
 	end
 
 	scenario "When a game is in progress and Game Over is pressed" do
-		player1 = Player.create(:name => "Royle", :game => @game)
-		player2 = Player.create(:name => "Kevin", :game => @game)
+		player1 = @game.got_next :name => "Royle"
+		player2 = @game.got_next :name => "Kevin"
 		@game.start!
 
 		visit "/game/show/#{@game.id}"
@@ -58,8 +58,8 @@ feature "Playing a Game where winner stays" do
 	end
 
 	scenario "The game ending button should say Winner" do
-		player1 = Player.create(:name => "Royle", :game => @game)
-		player2 = Player.create(:name => "Kevin", :game => @game)
+		player1 = @game.got_next :name => "Royle"
+		player2 = @game.got_next :name => "Kevin"
 		@game.start!
 
 		visit "/game/show/#{@game.id}"
@@ -67,9 +67,9 @@ feature "Playing a Game where winner stays" do
 	end
 
 	scenario "The winner is a player in the next game" do
-		player1 = Player.create(:name => "Royle", :game => @game)
-		winner = Player.create(:name => "Kevin", :game => @game)
-		gotnext = Player.create(:name => "Jim", :game => @game)
+		player1 = @game.got_next :name => "Royle"
+		winner = @game.got_next :name => "Kevin"
+		gotnext = @game.got_next :name => "Jim"
 		@game.start!
 
 		visit "/game/show/#{@game.id}"

@@ -11,6 +11,12 @@ class Game
 
 	has n, :players
 
+	def state
+		return :playing if @playing
+		return :ready if players_playing.size == @player_count
+		:waiting
+	end
+
 	def players_playing
 		players.find_all {|player| player.state == :playing}
 	end
@@ -24,6 +30,12 @@ class Game
 			waiting_player = players.find {|player| player.state == :waiting}
 			waiting_player.update(:state => :playing) unless waiting_player.nil?
 		end
+	end
+
+	def got_next player_params
+		player = players.create(player_params)
+		populate_game
+		player
 	end
 
 	def game_over!
@@ -48,8 +60,6 @@ class Game
 	end
 	
 	def start!
-		populate_game
-
 		update(:playing => true)
 	end
 	
