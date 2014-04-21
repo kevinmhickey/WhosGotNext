@@ -1,0 +1,18 @@
+<h1><%=@game.name%></h1>
+
+<%= yield %>
+
+<div id="waiting_div">
+<h2>Waiting to play</h2>
+<ul id="waiting_list">
+	<% for player in @game.players_waiting %>
+	<li><%= player.name %></li>
+	<% end %>
+</ul>
+<form action="/game/gotnext/<%=@game.id%>" method="POST">
+	<div><label for="gotnext_name">Name</label><input name="gotnext_name" type="text"/></div>
+	<input type="submit" value="Got Next"/>
+</form>
+</div>
+
+

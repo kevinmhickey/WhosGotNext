@@ -28,7 +28,13 @@ end
 
 get '/game/show/:id' do
 	@game = Game.get(params[:id])
-	erb :game
+
+	case @game.state
+	when :playing
+		erb :game_playing, :layout => :game_layout
+	else
+		erb :game
+	end
 end
 
 post '/game/start/:id' do

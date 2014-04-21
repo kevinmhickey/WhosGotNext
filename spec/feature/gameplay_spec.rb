@@ -42,9 +42,9 @@ feature "Playing a Game" do
 		@game.start!
 
 		visit "/game/show/#{@game.id}"
-		expect(page).to have_button "Game Over"
+		expect(page).to have_button "Winner"
 
-		click_button "Game Over"
+		click_button "Winner"
 
 		expect(page).to have_button "Start Game"
 		expect(page).not_to have_content "Now Playing"

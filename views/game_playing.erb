@@ -1,0 +1,13 @@
+<div id="now_playing">
+<h2>Now playing</h2>
+<form action="/game/gamewon/<%=@game.id%>" method="POST">
+<div id="now_playing_list">
+<% for player in @game.players_playing %>
+<div><input id="<%=player.id%>_winner" type="radio" name="winner" value=<%= player.id %>><%= player.name %></input></div>
+<% end %>
+</div>
+
+<input type="submit" value="Winner"/>
+</form>
+</div>
+
